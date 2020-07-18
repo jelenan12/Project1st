@@ -2,11 +2,28 @@ const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 
 let score=0;
-const restartGame = document.getElementById("restart-button")
-restartGame.addEventListener('click', () => location.reload())
-
 let isOver=false;
-const startGame = document.getElementById("start-button")
+
+let basket = {
+  image: new Image(),
+  height: 60,
+  width: 80,
+  x: 520,
+  y: canvas.height - 90,
+};
+basket.image.src = "./images/basket.png";
+
+
+let ball = {
+  x: 50,
+  y: 50,
+  r: 18,
+  color: 'red'
+};
+
+
+
+const startGame = document.getElementById("restart-button")
 startGame.addEventListener('click', () => location.reload())
 
 function drawBackGround(){
@@ -16,10 +33,10 @@ function drawBackGround(){
     ctx.font = "25px roman"
     ctx.fillText(`Score: ${score}`, 500, 50);
 }
+
 function drawBall(ball) {
     ctx.beginPath();
     ball.y += 4
-    if (score>5) ball.y+=6;
     ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
     ctx.fillStyle = ball.color;
     ctx.fill();
@@ -28,33 +45,21 @@ function drawBall(ball) {
     gameOver();
   }
 }
-const basket = {
-    image: new Image(),
-    height: 60,
-    width: 80,
-    x: 520,
-    y: canvas.height - 90,
-  };
-basket.image.src = "./images/basket.png";
-let ball = {
-    x: 50,
-    y: 50,
-    r: 18,
-    color: 'red'
-};
+
 const gameOver = () =>{
     isOver=true;
     if (isOver) {
-        restartGame.style.display = "block"
+        startGame.style.display = "block"
     }
     ctx.font = '50px bold Arial';
     ctx.fillStyle = 'black';
     ctx.fillText('Game over',  200, 200);
     clearInterval(interval)
  }
+
+
 function draw() {
     ctx.clearRect(0, 0 , canvas.width, canvas.height)
-    startGame.style.display = "block"
     if ( ball.y>600){
         ball.x = Math.floor(Math.random() * 600);
         ball.y=0 
